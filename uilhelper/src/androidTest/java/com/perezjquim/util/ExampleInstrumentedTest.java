@@ -1,4 +1,4 @@
-package com.perezjquim.uilhelper;
+package com.perezjquim.util;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;

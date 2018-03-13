@@ -1,4 +1,4 @@
-package com.perezjquim.uilhelper;
+package com.perezjquim.util;
 
 import org.junit.Test;
 
