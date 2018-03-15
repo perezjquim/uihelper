@@ -10,6 +10,7 @@ dependencies
 {
 	(...)
 	implementation 'com.github.perezjquim:uihelper:master-SNAPSHOT'
+	(...)
 }
 ```
 
@@ -29,6 +30,9 @@ Notification:
 {
 	(...)
 	notify(getApplicationContext(),MainActivity.class,"Voice-mail","You have got one new message!");
+	(...)
 }
 ```
+
 (...)
+
