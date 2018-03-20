@@ -1,4 +1,4 @@
-package com.perezjquim.util;
+package com.perezjquim;
 
 import android.app.Activity;
 import android.app.NotificationManager;

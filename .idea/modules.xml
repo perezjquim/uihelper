@@ -3,8 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/lib/uilhelper.iml" filepath="$PROJECT_DIR$/lib/uilhelper.iml" />
       <module fileurl="file://$PROJECT_DIR$/uihelper.iml" filepath="$PROJECT_DIR$/uihelper.iml" />
-      <module fileurl="file://$PROJECT_DIR$/uilhelper/uilhelper.iml" filepath="$PROJECT_DIR$/uilhelper/uilhelper.iml" />
     </modules>
   </component>
 </project>

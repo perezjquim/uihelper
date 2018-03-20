@@ -1,1 +1,1 @@
-include ':app', ':uilhelper'
+include ':app', ':lib'
