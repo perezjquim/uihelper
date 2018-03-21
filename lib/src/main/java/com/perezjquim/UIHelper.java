@@ -1,6 +1,7 @@
 package com.perezjquim;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -10,12 +11,18 @@ import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.WindowManager;
+import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.perezjquim.uihelper.R;
+
 public abstract class UIHelper
 {
+    private static Dialog dialog;
+
     public static void unhide(View view)
     { view.setVisibility(RelativeLayout.VISIBLE); }
 
@@ -48,6 +55,24 @@ public abstract class UIHelper
             "#705050",
             "#FFFFFF"
     };
+
+    public static void showProgressDialog(Context c, String message)
+    {
+        dialog = new Dialog(c, R.style.TransparentProgressDialog);
+        dialog.setTitle(message);
+        dialog.setCancelable(false);
+        dialog.addContentView(
+                new ProgressBar(c),
+                new WindowManager.LayoutParams(
+                        WindowManager.LayoutParams.MATCH_PARENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT));
+        dialog.show();
+    }
+
+    public static void hideProgressDialog()
+    {
+        if(dialog != null) dialog.dismiss();
+    }
 
     public static void fitToScreen(Activity a, View view)
     {
