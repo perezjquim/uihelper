@@ -35,27 +35,23 @@ public abstract class UIHelper
     }
 
     public static final String[] colors =
-            {
-                    "#FF0000",
-                    "#FF8000",
-                    "#FFFF00",
-                    "#00FF00",
-                    "#00FFFF",
-                    "#0080FF",
-                    "#0000FF",
-                    "#8000FF",
-                    "#FF00FF",
-                    "#705050",
-                    "#FFFFFF"
-            };
+    {
+            "#FF0000",
+            "#FF8000",
+            "#FFFF00",
+            "#00FF00",
+            "#00FFFF",
+            "#0080FF",
+            "#0000FF",
+            "#8000FF",
+            "#FF00FF",
+            "#705050",
+            "#FFFFFF"
+    };
+
     public static void fitToScreen(Activity a, View view)
     {
-        DisplayMetrics metrics = new DisplayMetrics();
-        a.getWindowManager().getDefaultDisplay().getMetrics(metrics);
-        android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
-        params.width = metrics.widthPixels;
-        params.height = metrics.heightPixels;
-        view.setLayoutParams(params);
+        fitToScreen(a,view,0);
     }
     public static void fitToScreen(Activity a, View view, int padding)
     {
@@ -93,7 +89,21 @@ public abstract class UIHelper
                 .setContentTitle(title)
                 .setContentText(text)
                 .setAutoCancel(true)
-                .setPriority(NotificationCompat.PRIORITY_MAX)
+                .setContentIntent(pending);
+
+        NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(title.hashCode(), mBuilder.build());
+    }
+    public static void notify(Context c,Class destination, int iconResID, String title, String text)
+    {
+        Intent intent = new Intent(c, destination);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setSmallIcon(iconResID)
                 .setContentIntent(pending);
 
         NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
