@@ -36,9 +36,7 @@ public abstract class UIHelper
     {
         Handler handler = new Handler(Looper.getMainLooper());
         handler.post(()->
-        {
-            Toast.makeText(c, s, Toast.LENGTH_SHORT).show();
-        });
+                Toast.makeText(c, s, Toast.LENGTH_SHORT).show());
     }
 
     public static final String[] colors =
@@ -58,20 +56,37 @@ public abstract class UIHelper
 
     public static void showProgressDialog(Context c, String message)
     {
-        dialog = new Dialog(c, R.style.TransparentProgressDialog);
-        dialog.setTitle(message);
-        dialog.setCancelable(false);
-        dialog.addContentView(
-                new ProgressBar(c),
-                new WindowManager.LayoutParams(
-                        WindowManager.LayoutParams.MATCH_PARENT,
-                        WindowManager.LayoutParams.WRAP_CONTENT));
+        // Se ainda não foi criado um dialog
+        if(dialog == null)
+        {
+            // O dialog é criado e configurado
+            dialog = new Dialog(c, R.style.TransparentProgressDialog);
+            dialog.setTitle(message);
+            dialog.setCancelable(false);
+            dialog.addContentView(
+                    new ProgressBar(c),
+                    new WindowManager.LayoutParams(
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.WRAP_CONTENT));
+        }
+
+        // Se já tiver sido criado um dialog
+        else
+        {
+            // É 'dismissed' caso esteja em ação
+            if(dialog.isShowing()) dialog.dismiss();
+
+            // A mensagem é mudada
+            dialog.setTitle(message);
+        }
+
+        // É mostrado o progress dialog
         dialog.show();
     }
 
     public static void hideProgressDialog()
     {
-        if(dialog != null) dialog.dismiss();
+        if(dialog != null && dialog.isShowing()) dialog.dismiss();
     }
 
     public static void fitToScreen(Activity a, View view)
