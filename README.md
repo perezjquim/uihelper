@@ -32,6 +32,19 @@ dependencies
 
 ## Examples of use
 
+Show/Hide/Toggle a view:
+```java
+{
+	(...)
+	hide(txtView);
+	(...)
+	unhide(txtView);
+	(...)
+	toggleVisibility(txtView);
+	(...)
+}
+```
+
 Toast:
 ```java
 {
@@ -49,4 +62,16 @@ Notification:
 	(...)
 }
 ```
+
+Progress dialog:
+```java
+{
+	(...)
+	showProgressDialog(getApplicationContext(),"Loading data and stuff..");
+	(...)
+	hideProgressDialog();
+	(...)
+}
+```
+
 (...)
