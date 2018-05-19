@@ -56,29 +56,18 @@ public abstract class UIHelper
 
     public static void showProgressDialog(Context c, String message)
     {
-        // Se ainda não foi criado um dialog
-        if(dialog == null)
-        {
-            // O dialog é criado e configurado
-            dialog = new Dialog(c, R.style.TransparentProgressDialog);
-            dialog.setTitle(message);
-            dialog.setCancelable(false);
-            dialog.addContentView(
-                    new ProgressBar(c),
-                    new WindowManager.LayoutParams(
-                            WindowManager.LayoutParams.MATCH_PARENT,
-                            WindowManager.LayoutParams.WRAP_CONTENT));
-        }
+        // Fecha dialogs prévios
+        hideProgressDialog();
 
-        // Se já tiver sido criado um dialog
-        else
-        {
-            // É 'dismissed' caso esteja em ação
-            if(dialog.isShowing()) dialog.dismiss();
-
-            // A mensagem é mudada
-            dialog.setTitle(message);
-        }
+        // O dialog é criado e configurado
+        dialog = new Dialog(c, R.style.TransparentProgressDialog);
+        dialog.setTitle(message);
+        dialog.setCancelable(false);
+        dialog.addContentView(
+                new ProgressBar(c),
+                new WindowManager.LayoutParams(
+                        WindowManager.LayoutParams.MATCH_PARENT,
+                        WindowManager.LayoutParams.WRAP_CONTENT));
 
         // É mostrado o progress dialog
         dialog.show();
