@@ -1,23 +1,31 @@
 package com.perezjquim;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.net.sip.SipSession;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
+import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.View;
 import android.view.WindowManager;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.perezjquim.uihelper.R;
+
+import java.util.EventListener;
+import java.util.function.Consumer;
 
 public abstract class UIHelper
 {
@@ -137,6 +145,69 @@ public abstract class UIHelper
 
         NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
         notificationManager.notify(title.hashCode(), mBuilder.build());
+    }
+
+    public static void askBinary(Context c,String title, Runnable action)
+    {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(c);
+        alertDialog.setTitle(title);
+        alertDialog.setCancelable(false);
+        alertDialog.setPositiveButton("Yes",
+                (dialog, which) ->
+                {
+                    action.run();
+                });
+        alertDialog.setNegativeButton("No",
+                (dialog, which) -> dialog.cancel());
+        alertDialog.show();
+    }
+
+    public static void askString(Context c,String title,InputListener action)
+    {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(c);
+        alertDialog.setTitle(title);
+        alertDialog.setCancelable(false);
+        final EditText input = new EditText(c);
+        input.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+        alertDialog.setView(input);
+        alertDialog.setPositiveButton("Confirm",
+                (dialog, which) ->
+                {
+                    String response = ""+input.getText();
+                    action.run(response);
+                });
+        alertDialog.setNegativeButton("Cancel",
+                (dialog, which) -> dialog.cancel());
+        alertDialog.show();
+    }
+
+    public static void askDouble(Context c,String title,InputListener action)
+    {
+        AlertDialog.Builder alertDialog = new AlertDialog.Builder(c);
+        alertDialog.setTitle(title);
+        alertDialog.setCancelable(false);
+        final EditText input = new EditText(c);
+        input.setInputType(InputType.TYPE_CLASS_NUMBER);
+        input.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+        alertDialog.setView(input);
+        alertDialog.setPositiveButton("Confirm",
+                (dialog, which) ->
+                {
+                    double response = Double.parseDouble(""+input.getText());
+                    action.run(response);
+                });
+        alertDialog.setNegativeButton("Cancel",
+                (dialog, which) -> dialog.cancel());
+        alertDialog.show();
+    }
+
+    private interface InputListener
+    {
+        void run(Object o);
     }
 
 }
