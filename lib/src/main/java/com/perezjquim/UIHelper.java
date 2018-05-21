@@ -208,7 +208,7 @@ public abstract class UIHelper
         alertDialog.show();
     }
 
-    private interface InputListener
+    public interface InputListener
     {
         void run(Object o);
     }
