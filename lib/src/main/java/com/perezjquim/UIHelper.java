@@ -147,10 +147,11 @@ public abstract class UIHelper
         notificationManager.notify(title.hashCode(), mBuilder.build());
     }
 
-    public static void askBinary(Context c,String title, Runnable action)
+    public static void askBinary(Context c,String title,String message,Runnable action)
     {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(c);
         alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
         alertDialog.setCancelable(false);
         alertDialog.setPositiveButton("Yes",
                 (dialog, which) ->
@@ -162,10 +163,11 @@ public abstract class UIHelper
         alertDialog.show();
     }
 
-    public static void askString(Context c,String title,InputListener action)
+    public static void askString(Context c,String title,String message,InputListener action)
     {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(c);
         alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
         alertDialog.setCancelable(false);
         final EditText input = new EditText(c);
         input.setLayoutParams(new LinearLayout.LayoutParams(
@@ -183,10 +185,11 @@ public abstract class UIHelper
         alertDialog.show();
     }
 
-    public static void askDouble(Context c,String title,InputListener action)
+    public static void askDouble(Context c,String title,String message,InputListener action)
     {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(c);
         alertDialog.setTitle(title);
+        alertDialog.setMessage(message);
         alertDialog.setCancelable(false);
         final EditText input = new EditText(c);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
