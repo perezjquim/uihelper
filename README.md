@@ -67,9 +67,9 @@ Progress dialog:
 ```java
 {
 	(...)
-	showProgressDialog(getApplicationContext(),"Loading data and stuff..");
+	openProgressDialog(getApplicationContext(),"Loading data and stuff..");
 	(...)
-	hideProgressDialog();
+	closeProgressDialog();
 	(...)
 }
 ```
