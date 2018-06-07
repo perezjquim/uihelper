@@ -235,10 +235,13 @@ public abstract class UIHelper
 
     public static void runOnUiThread(Runnable action)
     {
-        Looper.prepare();
-        Handler handler = new Handler(Looper.getMainLooper());
-        handler.post(action);
-        Looper.loop();
+        new Thread(()->
+        {
+            Looper.prepare();
+            Handler handler = new Handler(Looper.getMainLooper());
+            handler.post(action);
+            Looper.loop();
+        }).start();
     }
 
 }
