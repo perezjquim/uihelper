@@ -72,18 +72,17 @@ public abstract class UIHelper
 
         // O dialog é criado e configurado
         runOnUiThread(()->
-                dialog = new Dialog(c, R.style.TransparentProgressDialog));
-        dialog.setTitle(message);
-        dialog.setCancelable(false);
-        dialog.addContentView(
-                new ProgressBar(c),
-                new WindowManager.LayoutParams(
-                        WindowManager.LayoutParams.MATCH_PARENT,
-                        WindowManager.LayoutParams.WRAP_CONTENT));
-
-        // É mostrado o progress dialog
-        runOnUiThread(()->
-                dialog.show());
+        {
+            dialog = new Dialog(c, R.style.TransparentProgressDialog
+            dialog.setTitle(message);
+            dialog.setCancelable(false);
+            dialog.addContentView(
+                    new ProgressBar(c),
+                    new WindowManager.LayoutParams(
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.WRAP_CONTENT));
+            dialog.show();
+        });
     }
 
     public static void closeProgressDialog()
