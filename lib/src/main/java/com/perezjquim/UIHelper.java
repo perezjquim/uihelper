@@ -73,7 +73,7 @@ public abstract class UIHelper
         // O dialog é criado e configurado
         runOnUiThread(()->
         {
-            dialog = new Dialog(c, R.style.TransparentProgressDialog
+            dialog = new Dialog(c, R.style.TransparentProgressDialog);
             dialog.setTitle(message);
             dialog.setCancelable(false);
             dialog.addContentView(
