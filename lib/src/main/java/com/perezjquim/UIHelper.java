@@ -87,7 +87,7 @@ public abstract class UIHelper
 
     public static void closeProgressDialog()
     {
-        if(dialog != null && dialog.isShowing())
+        if(dialog != null)
         {
             runOnUiThread(()->
                     dialog.dismiss());
