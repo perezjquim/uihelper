@@ -38,7 +38,7 @@ Show/Hide/Toggle a view:
 	(...)
 	hide(txtView);
 	(...)
-	unhide(txtView);
+	show(txtView);
 	(...)
 	toggleVisibility(txtView);
 	(...)
@@ -49,7 +49,7 @@ Toast:
 ```java
 {
 	(...)
-	toast(getApplicationContext(),"Great success!");
+	toast(ctx,"Great success!");
 	(...)
 }
 ```
@@ -58,7 +58,7 @@ Notification:
 ```java
 {
 	(...)
-	notify(getApplicationContext(),MainActivity.class,"Voice-mail","You have got one new message!");
+	notify(ctx,MainActivity.class,"Voice-mail","You have got one new message!");
 	(...)
 }
 ```
@@ -67,10 +67,41 @@ Progress dialog:
 ```java
 {
 	(...)
-	openProgressDialog(getApplicationContext(),"Loading data and stuff..");
+	openProgressDialog(ctx,"Loading data and stuff..");
 	(...)
 	closeProgressDialog();
 	(...)
+}
+```
+
+Create a notification:
+```java
+{
+	(...)
+    notify(ctx,Destination.class,"Message received!","Hi!");
+    (...)
+}
+```
+
+Input dialogs:
+```java
+{
+	(...)
+   	// Ask 'Yes/No'
+    askBinary(ctx,"Confirmation stuff","Are you sure you wanna do this?",(input)->
+    {
+    	toast(ctx,"Confirmed!");
+    });
+    // Ask for a string
+    askString(ctx,"Asking for a String...","Write a phrase",(input)->
+    {
+    	toast(ctx,"Inserted phrase:"+input);
+    });
+    // Ask for a double
+    askDouble(ctx,"Asking for a double...","Write a number",(input)->
+    {
+    	toast(ctx,"Inserted double:"+input);
+    });
 }
 ```
 
