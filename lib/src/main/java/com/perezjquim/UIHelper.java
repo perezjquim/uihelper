@@ -137,14 +137,18 @@ public abstract class UIHelper
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
+        
+        runOnUiThread(()->
+        {
+					NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setAutoCancel(true)
                 .setContentIntent(pending);
 
-        NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(title.hashCode(), mBuilder.build());
+        	NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+        	notificationManager.notify(title.hashCode(), mBuilder.build());
+        });
     }
 
     public static void notify(Context c,Class destination, int iconResID, String title, String text)
@@ -152,15 +156,19 @@ public abstract class UIHelper
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
+        
+				runOnUiThread(()->
+				{
+					NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
                 .setContentTitle(title)
                 .setContentText(text)
                 .setAutoCancel(true)
                 .setSmallIcon(iconResID)
                 .setContentIntent(pending);
 
-        NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-        notificationManager.notify(title.hashCode(), mBuilder.build());
+	        NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+	        notificationManager.notify(title.hashCode(), mBuilder.build());
+				});
     }
 
     public static void askBinary(Context c,String title,String message,Runnable action)
