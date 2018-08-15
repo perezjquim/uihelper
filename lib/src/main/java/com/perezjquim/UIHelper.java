@@ -70,12 +70,22 @@ public abstract class UIHelper
         if(dialog == null)
         {
             dialog = new Dialog(a, R.style.TransparentProgressDialog);
-            dialog.setCancelable(false);
-            dialog.addContentView(
-                    new ProgressBar(a),
-                    new WindowManager.LayoutParams(
-                            WindowManager.LayoutParams.MATCH_PARENT,
-                            WindowManager.LayoutParams.WRAP_CONTENT));
+
+            synchronized (dialog)
+            {
+                dialog.setCancelable(false);
+                dialog.addContentView(
+                        new ProgressBar(a),
+                        new WindowManager.LayoutParams(
+                                WindowManager.LayoutParams.MATCH_PARENT,
+                                WindowManager.LayoutParams.WRAP_CONTENT));
+
+                runOnUiThread(()->
+                {
+                    dialog.setTitle(message);
+                    dialog.show();
+                });
+            }
         }
         else
         {
@@ -99,7 +109,6 @@ public abstract class UIHelper
                     dialog.hide();
                 }
 
-                // O dialog é criado e configurado
                 runOnUiThread(()->
                 {
                     dialog.setTitle(message);
@@ -113,13 +122,13 @@ public abstract class UIHelper
     {
         if(dialog != null)
         {
-            runOnUiThread(()->
+            synchronized (dialog)
             {
-                synchronized (dialog)
+                runOnUiThread(()->
                 {
-                    dialog.hide();
-                }
-            });
+                        dialog.hide();
+                });
+            }
         }
     }
 
