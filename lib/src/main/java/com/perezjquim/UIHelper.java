@@ -81,7 +81,7 @@ public abstract class UIHelper
         {
             synchronized (dialog)
             {
-                if(dialog.isShowing()) dialog.dismiss();
+                if(a != null && !a.isFinishing()) dialog.dismiss();
 
                 dialog = new Dialog(a, R.style.TransparentProgressDialog);
                 dialog.setCancelable(false);
