@@ -65,28 +65,28 @@ public abstract class UIHelper
             "#FFFFFF"
     };
 
-    public static void openProgressDialog(Context c, String message)
+    public static void openProgressDialog(Activity a, String message)
     {
         if(dialog == null)
         {
-            dialog = new Dialog(c, R.style.TransparentProgressDialog);
+            dialog = new Dialog(a, R.style.TransparentProgressDialog);
             dialog.setCancelable(false);
             dialog.addContentView(
-                    new ProgressBar(c),
+                    new ProgressBar(a),
                     new WindowManager.LayoutParams(
                             WindowManager.LayoutParams.MATCH_PARENT,
                             WindowManager.LayoutParams.WRAP_CONTENT));
         }
-        else if(dialog.getContext() != c)
+        else if(dialog.getOwnerActivity() != a)
         {
             synchronized (dialog)
             {
                 dialog.dismiss();
 
-                dialog = new Dialog(c, R.style.TransparentProgressDialog);
+                dialog = new Dialog(a, R.style.TransparentProgressDialog);
                 dialog.setCancelable(false);
                 dialog.addContentView(
-                        new ProgressBar(c),
+                        new ProgressBar(a),
                         new WindowManager.LayoutParams(
                                 WindowManager.LayoutParams.MATCH_PARENT,
                                 WindowManager.LayoutParams.WRAP_CONTENT));
