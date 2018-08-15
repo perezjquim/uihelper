@@ -67,18 +67,36 @@ public abstract class UIHelper
 
     public static void openProgressDialog(Context c, String message)
     {
-        // Fecha dialogs prévios
-        closeProgressDialog();
-
         if(dialog == null)
         {
             dialog = new Dialog(c, R.style.TransparentProgressDialog);
+            dialog.setCancelable(false);
+            dialog.addContentView(
+                    new ProgressBar(c),
+                    new WindowManager.LayoutParams(
+                            WindowManager.LayoutParams.MATCH_PARENT,
+                            WindowManager.LayoutParams.WRAP_CONTENT));
         }
         else if(dialog.getContext() != c)
         {
             synchronized (dialog)
             {
+                dialog.dismiss();
+
                 dialog = new Dialog(c, R.style.TransparentProgressDialog);
+                dialog.setCancelable(false);
+                dialog.addContentView(
+                        new ProgressBar(c),
+                        new WindowManager.LayoutParams(
+                                WindowManager.LayoutParams.MATCH_PARENT,
+                                WindowManager.LayoutParams.WRAP_CONTENT));
+            }
+        }
+        else
+        {
+            synchronized (dialog)
+            {
+                dialog.hide();
             }
         }
 
@@ -86,12 +104,6 @@ public abstract class UIHelper
         runOnUiThread(()->
         {
             dialog.setTitle(message);
-            dialog.setCancelable(false);
-            dialog.addContentView(
-                    new ProgressBar(c),
-                    new WindowManager.LayoutParams(
-                            WindowManager.LayoutParams.MATCH_PARENT,
-                            WindowManager.LayoutParams.WRAP_CONTENT));
             dialog.show();
         });
     }
