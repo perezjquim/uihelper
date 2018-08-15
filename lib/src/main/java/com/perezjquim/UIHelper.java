@@ -73,16 +73,12 @@ public abstract class UIHelper
         // O dialog é criado e configurado
         runOnUiThread(()->
         {
-            if(dialog != null)
+            if(dialog != null || dialog.getContext() != c)
             {
                 synchronized (dialog)
                 {
                     dialog = new Dialog(c, R.style.TransparentProgressDialog);
                 }
-            }
-            else
-            {
-                dialog = new Dialog(c, R.style.TransparentProgressDialog);
             }
 
             dialog.setTitle(message);
@@ -100,11 +96,13 @@ public abstract class UIHelper
     {
         if(dialog != null)
         {
-            synchronized (dialog)
+            runOnUiThread(()->
             {
-                runOnUiThread(()->
-                        dialog.dismiss());
-            }
+                synchronized (dialog) 
+                {
+                    dialog.hide();
+                }
+            });
         }
     }
 
