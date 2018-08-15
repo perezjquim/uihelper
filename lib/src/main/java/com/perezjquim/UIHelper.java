@@ -77,35 +77,36 @@ public abstract class UIHelper
                             WindowManager.LayoutParams.MATCH_PARENT,
                             WindowManager.LayoutParams.WRAP_CONTENT));
         }
-        else if(dialog.getOwnerActivity() != a)
-        {
-            synchronized (dialog)
-            {
-                if(a != null && !a.isFinishing()) dialog.dismiss();
-
-                dialog = new Dialog(a, R.style.TransparentProgressDialog);
-                dialog.setCancelable(false);
-                dialog.addContentView(
-                        new ProgressBar(a),
-                        new WindowManager.LayoutParams(
-                                WindowManager.LayoutParams.MATCH_PARENT,
-                                WindowManager.LayoutParams.WRAP_CONTENT));
-            }
-        }
         else
         {
             synchronized (dialog)
             {
-                dialog.hide();
+                Activity owner = dialog.getOwnerActivity();
+                if(owner != a)
+                {
+                    if(owner != null && !owner.isFinishing()) dialog.dismiss();
+
+                    dialog = new Dialog(a, R.style.TransparentProgressDialog);
+                    dialog.setCancelable(false);
+                    dialog.addContentView(
+                            new ProgressBar(a),
+                            new WindowManager.LayoutParams(
+                                    WindowManager.LayoutParams.MATCH_PARENT,
+                                    WindowManager.LayoutParams.WRAP_CONTENT));
+                }
+                else
+                {
+                    dialog.hide();
+                }
+
+                // O dialog é criado e configurado
+                runOnUiThread(()->
+                {
+                    dialog.setTitle(message);
+                    dialog.show();
+                });
             }
         }
-
-        // O dialog é criado e configurado
-        runOnUiThread(()->
-        {
-            dialog.setTitle(message);
-            dialog.show();
-        });
     }
 
     public static void closeProgressDialog()
