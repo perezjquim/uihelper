@@ -96,6 +96,7 @@ public abstract class UIHelper
                 if(owner != a)
                 {
                     if(owner != null && !owner.isFinishing()) dialog.dismiss();
+                    else dialog.hide();
 
                     dialog = new Dialog(a, R.style.TransparentProgressDialog);
                     dialog.setCancelable(false);
