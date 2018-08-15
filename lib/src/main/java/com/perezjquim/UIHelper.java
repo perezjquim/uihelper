@@ -67,30 +67,39 @@ public abstract class UIHelper
 
     public static void openProgressDialog(Context c, String message)
     {
-        // Fecha dialogs prévios
-        closeProgressDialog();
-
-        // O dialog é criado e configurado
-        runOnUiThread(()->
+        synchronized (dialog)
         {
-            dialog = new Dialog(c, R.style.TransparentProgressDialog);
-            dialog.setTitle(message);
-            dialog.setCancelable(false);
-            dialog.addContentView(
-                    new ProgressBar(c),
-                    new WindowManager.LayoutParams(
-                            WindowManager.LayoutParams.MATCH_PARENT,
-                            WindowManager.LayoutParams.WRAP_CONTENT));
-            dialog.show();
-        });
+            // Fecha dialogs prévios
+            closeProgressDialog();
+
+            // O dialog é criado e configurado
+            runOnUiThread(()->
+            {
+                synchronized (dialog)
+                {
+                    dialog = new Dialog(c, R.style.TransparentProgressDialog);
+                    dialog.setTitle(message);
+                    dialog.setCancelable(false);
+                    dialog.addContentView(
+                            new ProgressBar(c),
+                            new WindowManager.LayoutParams(
+                                    WindowManager.LayoutParams.MATCH_PARENT,
+                                    WindowManager.LayoutParams.WRAP_CONTENT));
+                    dialog.show();
+                }
+            });
+        }
     }
 
     public static void closeProgressDialog()
     {
-        if(dialog != null)
+        synchronized (dialog)
         {
-            runOnUiThread(()->
-                    dialog.dismiss());
+            if(dialog != null)
+            {
+                runOnUiThread(()->
+                        dialog.dismiss());
+            }
         }
     }
 
@@ -130,25 +139,6 @@ public abstract class UIHelper
         String finalStrMinute = strMinute;
         runOnUiThread(()->
                 text.setText(finalStrHour + ":" + finalStrMinute));
-    }
-
-    public static void notify(Context c,Class destination,String title, String text)
-    {
-        Intent intent = new Intent(c, destination);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-        
-        runOnUiThread(()->
-        {
-					NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setAutoCancel(true)
-                .setContentIntent(pending);
-
-        	NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-        	notificationManager.notify(title.hashCode(), mBuilder.build());
-        });
     }
 
     public static void notify(Context c,Class destination, int iconResID, String title, String text)
