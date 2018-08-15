@@ -13,6 +13,7 @@ import android.support.v4.app.NotificationCompat;
 import android.text.InputType;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
@@ -190,69 +191,76 @@ public abstract class UIHelper
 				});
     }
 
-    public static void askBinary(Context c,String title,String message,Runnable action)
+    public static void notify(Context c,Class destination, String title, String text)
+    {
+        Intent intent = new Intent(c, destination);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+
+        runOnUiThread(()->
+        {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
+                    .setContentTitle(title)
+                    .setContentText(text)
+                    .setAutoCancel(true)
+                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                    .setContentIntent(pending);
+
+            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(title.hashCode(), mBuilder.build());
+        });
+    }
+
+    public static void ask(Context c, String title, String message, String positiveLabel, String negativeLabel, View form, InputListener action)
     {
         AlertDialog.Builder alertDialog = new AlertDialog.Builder(c);
         alertDialog.setTitle(title);
         alertDialog.setMessage(message);
+        alertDialog.setView(form);
         alertDialog.setCancelable(false);
-        alertDialog.setPositiveButton("Yes",
+
+        alertDialog.setPositiveButton(positiveLabel,
                 (dialog, which) ->
-                        action.run());
-        alertDialog.setNegativeButton("No",
+                        action.run(form));
+        alertDialog.setNegativeButton(negativeLabel,
                 (dialog, which) ->
-                        runOnUiThread(()->
-                                dialog.cancel()));
+                        runOnUiThread(()-> dialog.cancel()));
         runOnUiThread(()->alertDialog.show());
+    }
+
+    public static void askBinary(Context c,String title,String message,Runnable action)
+    {
+        ask(c,title,message,"Yes","No",null,(form) ->
+        {
+           action.run();
+        });
     }
 
     public static void askString(Context c,String title,String message,InputListener action)
     {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(c);
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setCancelable(false);
         final EditText input = new EditText(c);
         input.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
-        alertDialog.setView(input);
-        alertDialog.setPositiveButton("Confirm",
-                (dialog, which) ->
-                {
-                    String response = ""+input.getText();
-                    action.run(response);
-                });
-        alertDialog.setNegativeButton("Cancel",
-                (dialog, which) ->
-                        runOnUiThread(()->
-                                dialog.cancel()));
-        runOnUiThread(()->alertDialog.show());
+
+        ask(c,title,message,"Confirm","Cancel",input,(form) ->
+        {
+            action.run(input.getText()+"");
+        });
     }
 
     public static void askDouble(Context c,String title,String message,InputListener action)
     {
-        AlertDialog.Builder alertDialog = new AlertDialog.Builder(c);
-        alertDialog.setTitle(title);
-        alertDialog.setMessage(message);
-        alertDialog.setCancelable(false);
         final EditText input = new EditText(c);
         input.setInputType(InputType.TYPE_CLASS_NUMBER);
         input.setLayoutParams(new LinearLayout.LayoutParams(
                 LinearLayout.LayoutParams.MATCH_PARENT,
                 LinearLayout.LayoutParams.MATCH_PARENT));
-        alertDialog.setView(input);
-        alertDialog.setPositiveButton("Confirm",
-                (dialog, which) ->
-                {
-                    double response = Double.parseDouble(""+input.getText());
-                    action.run(response);
-                });
-        alertDialog.setNegativeButton("Cancel",
-                (dialog, which) ->
-                        runOnUiThread(()->
-                                dialog.cancel()));
-        runOnUiThread(()->alertDialog.show());
+
+        ask(c,title,message,"Confirm","Cancel",input,(form) ->
+        {
+            action.run(input.getText()+"");
+        });
     }
 
     public interface InputListener

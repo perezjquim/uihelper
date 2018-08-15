@@ -60,6 +60,8 @@ Notification:
 	(...)
 	notify(ctx,MainActivity.class,"Voice-mail","You have got one new message!");
 	(...)
+	notify(ctx,MainActivity.class,android.R.drawable.ic_menu_call,"Voice-mail","You have got one new message!");
+	(...)	
 }
 ```
 
@@ -67,28 +69,19 @@ Progress dialog:
 ```java
 {
 	(...)
-	openProgressDialog(ctx,"Loading data and stuff..");
+	openProgressDialog(act,"Loading data and stuff..");
 	(...)
 	closeProgressDialog();
 	(...)
 }
 ```
 
-Create a notification:
-```java
-{
-	(...)
-    notify(ctx,Destination.class,"Message received!","Hi!");
-    (...)
-}
-```
-
 Input dialogs:
 ```java
 {
-	(...)
+		(...)
    	// Ask 'Yes/No'
-    askBinary(ctx,"Confirmation stuff","Are you sure you wanna do this?",(input)->
+    askBinary(ctx,"Confirmation stuff","Are you sure you wanna do this?",()->
     {
     	toast(ctx,"Confirmed!");
     });
@@ -102,6 +95,7 @@ Input dialogs:
     {
     	toast(ctx,"Inserted double:"+input);
     });
+    (...)
 }
 ```
 
