@@ -250,6 +250,20 @@ public abstract class UIHelper
         });
     }
 
+    public static void askURL(Context c,String title,String message,InputListener action)
+    {
+        final EditText input = new EditText(c);
+        input.setInputType(InputType.TYPE_TEXT_VARIATION_URI);
+        input.setLayoutParams(new LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.MATCH_PARENT,
+                LinearLayout.LayoutParams.MATCH_PARENT));
+
+        ask(c,title,message,"Confirm","Cancel",input,(form) ->
+        {
+            action.run(input.getText()+"");
+        });
+    }
+
     public static void askDouble(Context c,String title,String message,InputListener action)
     {
         final EditText input = new EditText(c);
