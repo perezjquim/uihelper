@@ -69,23 +69,22 @@ public abstract class UIHelper
     {
         if(dialog == null)
         {
-            runOnUiThread(() -> dialog = new Dialog(a, R.style.TransparentProgressDialog));
-
-            synchronized (dialog)
+            runOnUiThread(() ->
             {
-                dialog.setCancelable(false);
-                dialog.addContentView(
-                        new ProgressBar(a),
-                        new WindowManager.LayoutParams(
-                                WindowManager.LayoutParams.MATCH_PARENT,
-                                WindowManager.LayoutParams.WRAP_CONTENT));
-
-                runOnUiThread(()->
+                dialog = new Dialog(a, R.style.TransparentProgressDialog);
+                synchronized (dialog)
                 {
+                    dialog.setCancelable(false);
+                    dialog.addContentView(
+                            new ProgressBar(a),
+                            new WindowManager.LayoutParams(
+                                    WindowManager.LayoutParams.MATCH_PARENT,
+                                    WindowManager.LayoutParams.WRAP_CONTENT));
+
                     dialog.setTitle(message);
                     dialog.show();
-                });
-            }
+                }
+            });
         }
         else
         {
@@ -97,13 +96,16 @@ public abstract class UIHelper
                     if(owner != null && !owner.isFinishing()) dialog.dismiss();
                     else dialog.hide();
 
-                    runOnUiThread(() -> dialog = new Dialog(a, R.style.TransparentProgressDialog));
-                    dialog.setCancelable(false);
-                    dialog.addContentView(
-                            new ProgressBar(a),
-                            new WindowManager.LayoutParams(
-                                    WindowManager.LayoutParams.MATCH_PARENT,
-                                    WindowManager.LayoutParams.WRAP_CONTENT));
+                    runOnUiThread(() ->
+                    {
+                        dialog = new Dialog(a, R.style.TransparentProgressDialog);
+                        dialog.setCancelable(false);
+                        dialog.addContentView(
+                                new ProgressBar(a),
+                                new WindowManager.LayoutParams(
+                                        WindowManager.LayoutParams.MATCH_PARENT,
+                                        WindowManager.LayoutParams.WRAP_CONTENT));
+                    });
                 }
                 else
                 {
