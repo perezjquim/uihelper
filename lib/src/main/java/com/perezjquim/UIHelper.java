@@ -69,7 +69,7 @@ public abstract class UIHelper
     {
         if(dialog == null)
         {
-            dialog = new Dialog(a, R.style.TransparentProgressDialog);
+            runOnUiThread(() -> dialog = new Dialog(a, R.style.TransparentProgressDialog));
 
             synchronized (dialog)
             {
@@ -97,7 +97,7 @@ public abstract class UIHelper
                     if(owner != null && !owner.isFinishing()) dialog.dismiss();
                     else dialog.hide();
 
-                    dialog = new Dialog(a, R.style.TransparentProgressDialog);
+                    runOnUiThread(() -> dialog = new Dialog(a, R.style.TransparentProgressDialog));
                     dialog.setCancelable(false);
                     dialog.addContentView(
                             new ProgressBar(a),
