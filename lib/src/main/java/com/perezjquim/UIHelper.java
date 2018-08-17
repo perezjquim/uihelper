@@ -195,11 +195,51 @@ public abstract class UIHelper
         });
     }
 
+    public static void notify(Context c, int iconResID, String title, String text)
+    {
+        Intent intent = new Intent();
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        runOnUiThread(()->
+        {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
+                    .setContentTitle(title)
+                    .setContentText(text)
+                    .setAutoCancel(true)
+                    .setLights(Color.WHITE,100,100)
+                    .setSmallIcon(iconResID)
+                    .setContentIntent(pending);
+
+            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(title.hashCode(), mBuilder.build());
+        });
+    }
+
     public static void notify(Context c,Class destination, int iconResID, String title, String text, int argb_color)
     {
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+
+        runOnUiThread(()->
+        {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
+                    .setContentTitle(title)
+                    .setContentText(text)
+                    .setAutoCancel(true)
+                    .setLights(argb_color,100,100)
+                    .setSmallIcon(iconResID)
+                    .setContentIntent(pending);
+
+            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(title.hashCode(), mBuilder.build());
+        });
+    }
+
+    public static void notify(Context c, int iconResID, String title, String text, int argb_color)
+    {
+        Intent intent = new Intent();
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         runOnUiThread(()->
         {
@@ -237,11 +277,51 @@ public abstract class UIHelper
         });
     }
 
+    public static void notify(Context c, String title, String text)
+    {
+        Intent intent = new Intent();
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        runOnUiThread(()->
+        {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
+                    .setContentTitle(title)
+                    .setContentText(text)
+                    .setAutoCancel(true)
+                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                    .setLights(Color.WHITE,100,100)
+                    .setContentIntent(pending);
+
+            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(title.hashCode(), mBuilder.build());
+        });
+    }
+
     public static void notify(Context c,Class destination, String title, String text, int argb_color)
     {
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+
+        runOnUiThread(()->
+        {
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
+                    .setContentTitle(title)
+                    .setContentText(text)
+                    .setAutoCancel(true)
+                    .setSmallIcon(android.R.drawable.ic_dialog_info)
+                    .setLights(argb_color,100,100)
+                    .setContentIntent(pending);
+
+            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+            notificationManager.notify(title.hashCode(), mBuilder.build());
+        });
+    }
+
+    public static void notify(Context c, String title, String text, int argb_color)
+    {
+        Intent intent = new Intent();
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         runOnUiThread(()->
         {
