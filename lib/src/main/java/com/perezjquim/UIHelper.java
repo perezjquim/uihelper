@@ -27,6 +27,8 @@ import com.perezjquim.uihelper.R;
 public abstract class UIHelper
 {
     private static Dialog dialog;
+    private static final int LED_ON_MS = 500;
+    private static final int LED_OFF_MS = 2000;
 
     public static void show(View view)
     {
@@ -186,7 +188,7 @@ public abstract class UIHelper
                 .setContentTitle(title)
                 .setContentText(text)
                 .setAutoCancel(true)
-                .setLights(Color.WHITE,100,100)
+                .setLights(Color.WHITE,LED_ON_MS,LED_OFF_MS)
                 .setSmallIcon(iconResID)
                 .setContentIntent(pending);
 
@@ -206,7 +208,7 @@ public abstract class UIHelper
                     .setContentTitle(title)
                     .setContentText(text)
                     .setAutoCancel(true)
-                    .setLights(Color.WHITE,100,100)
+                    .setLights(Color.WHITE,LED_ON_MS,LED_OFF_MS)
                     .setSmallIcon(iconResID)
                     .setContentIntent(pending);
 
@@ -227,7 +229,7 @@ public abstract class UIHelper
                     .setContentTitle(title)
                     .setContentText(text)
                     .setAutoCancel(true)
-                    .setLights(argb_color,100,100)
+                    .setLights(argb_color,LED_ON_MS,LED_OFF_MS)
                     .setSmallIcon(iconResID)
                     .setContentIntent(pending);
 
@@ -247,7 +249,7 @@ public abstract class UIHelper
                     .setContentTitle(title)
                     .setContentText(text)
                     .setAutoCancel(true)
-                    .setLights(argb_color,100,100)
+                    .setLights(argb_color,LED_ON_MS,LED_OFF_MS)
                     .setSmallIcon(iconResID)
                     .setContentIntent(pending);
 
@@ -269,7 +271,7 @@ public abstract class UIHelper
                     .setContentText(text)
                     .setAutoCancel(true)
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLights(Color.WHITE,100,100)
+                    .setLights(Color.WHITE,LED_ON_MS,LED_OFF_MS)
                     .setContentIntent(pending);
 
             NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -289,7 +291,7 @@ public abstract class UIHelper
                     .setContentText(text)
                     .setAutoCancel(true)
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLights(Color.WHITE,100,100)
+                    .setLights(Color.WHITE,LED_ON_MS,LED_OFF_MS)
                     .setContentIntent(pending);
 
             NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -310,7 +312,7 @@ public abstract class UIHelper
                     .setContentText(text)
                     .setAutoCancel(true)
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLights(argb_color,100,100)
+                    .setLights(argb_color,LED_ON_MS,LED_OFF_MS)
                     .setContentIntent(pending);
 
             NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
@@ -330,7 +332,7 @@ public abstract class UIHelper
                     .setContentText(text)
                     .setAutoCancel(true)
                     .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLights(argb_color,100,100)
+                    .setLights(argb_color,LED_ON_MS,LED_OFF_MS)
                     .setContentIntent(pending);
 
             NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
