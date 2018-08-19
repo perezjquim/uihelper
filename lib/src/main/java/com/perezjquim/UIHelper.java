@@ -179,11 +179,103 @@ public abstract class UIHelper
                 text.setText(finalStrHour + ":" + finalStrMinute));
     }
 
+    public static void notify(Activity a,Class destination, int iconResID, String title, String text)
+    {
+        Intent intent = new Intent(a, destination);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+
+        runOnUiThread(()->
+        {
+            buildNotification(a,title,text,iconResID,Color.WHITE,pending);
+        });
+    }
+
+    public static void notify(Activity a, int iconResID, String title, String text)
+    {
+        Intent intent = new Intent();
+        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        runOnUiThread(()->
+        {
+            buildNotification(a,title,text,iconResID,Color.WHITE,pending);
+        });
+    }
+
+    public static void notify(Activity a,Class destination, int iconResID, String title, String text, int argb_color)
+    {
+        Intent intent = new Intent(a, destination);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+
+        runOnUiThread(()->
+        {
+            buildNotification(a,title,text,iconResID,argb_color,pending);
+        });
+    }
+
+    public static void notify(Activity a, int iconResID, String title, String text, int argb_color)
+    {
+        Intent intent = new Intent();
+        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        runOnUiThread(()->
+        {
+            buildNotification(a,title,text,iconResID,argb_color,pending);
+        });
+    }
+
+    public static void notify(Activity a,Class destination, String title, String text)
+    {
+        Intent intent = new Intent(a, destination);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+
+        runOnUiThread(()->
+        {
+            buildNotification(a,title,text,android.R.drawable.ic_dialog_info,Color.WHITE,pending);
+        });
+    }
+
+    public static void notify(Activity a, String title, String text)
+    {
+        Intent intent = new Intent();
+        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        runOnUiThread(()->
+        {
+            buildNotification(a,title,text,android.R.drawable.ic_dialog_info,Color.WHITE,pending);
+        });
+    }
+
+    public static void notify(Activity a,Class destination, String title, String text, int argb_color)
+    {
+        Intent intent = new Intent(a, destination);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+
+        runOnUiThread(()->
+        {
+            buildNotification(a,title,text,android.R.drawable.ic_dialog_info,argb_color,pending);
+        });
+    }
+
+    public static void notify(Activity a, String title, String text, int argb_color)
+    {
+        Intent intent = new Intent();
+        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        runOnUiThread(()->
+        {
+            buildNotification(a,title,text,android.R.drawable.ic_dialog_info,argb_color,pending);
+        });
+    }
+
     public static void notify(Context c,Class destination, int iconResID, String title, String text)
     {
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         
         runOnUiThread(()->
         {
@@ -194,7 +286,7 @@ public abstract class UIHelper
     public static void notify(Context c, int iconResID, String title, String text)
     {
         Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         runOnUiThread(()->
         {
@@ -206,7 +298,7 @@ public abstract class UIHelper
     {
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
 
         runOnUiThread(()->
         {
@@ -217,7 +309,7 @@ public abstract class UIHelper
     public static void notify(Context c, int iconResID, String title, String text, int argb_color)
     {
         Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         runOnUiThread(()->
         {
@@ -229,7 +321,7 @@ public abstract class UIHelper
     {
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
 
         runOnUiThread(()->
         {
@@ -240,7 +332,7 @@ public abstract class UIHelper
     public static void notify(Context c, String title, String text)
     {
         Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         runOnUiThread(()->
         {
@@ -252,7 +344,7 @@ public abstract class UIHelper
     {
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
 
         runOnUiThread(()->
         {
@@ -263,7 +355,7 @@ public abstract class UIHelper
     public static void notify(Context c, String title, String text, int argb_color)
     {
         Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         runOnUiThread(()->
         {
