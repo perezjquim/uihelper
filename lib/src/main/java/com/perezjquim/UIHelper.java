@@ -330,7 +330,7 @@ public abstract class UIHelper
 
     public static void runOnUiThread(Runnable action)
     {
-        if(Looper.getMainLooper() == Looper.myLooper())
+        if(Thread.currentThread() == Looper.getMainLooper().getThread())
         {
             action.run();
         }
