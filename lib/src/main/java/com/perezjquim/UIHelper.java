@@ -233,7 +233,7 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            buildNotification(c,title,text,android.R.drawable.ic_menu_info_details,Color.WHITE,pending);
+            buildNotification(c,title,text,android.R.drawable.ic_dialog_info,Color.WHITE,pending);
         });
     }
 
@@ -244,7 +244,7 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            buildNotification(c,title,text,android.R.drawable.ic_menu_info_details,Color.WHITE,pending);
+            buildNotification(c,title,text,android.R.drawable.ic_dialog_info,Color.WHITE,pending);
         });
     }
 
@@ -256,7 +256,7 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            buildNotification(c,title,text,android.R.drawable.ic_menu_info_details,argb_color,pending);
+            buildNotification(c,title,text,android.R.drawable.ic_dialog_info,argb_color,pending);
         });
     }
 
@@ -267,7 +267,7 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            buildNotification(c,title,text,android.R.drawable.ic_menu_info_details,argb_color,pending);
+            buildNotification(c,title,text,android.R.drawable.ic_dialog_info,argb_color,pending);
         });
     }
 
