@@ -8,6 +8,9 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.Ringtone;
+import android.media.RingtoneManager;
+import android.net.Uri;
 import android.os.Handler;
 import android.os.Looper;
 import android.support.v4.app.NotificationCompat;
@@ -184,16 +187,7 @@ public abstract class UIHelper
         
         runOnUiThread(()->
         {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
-                .setContentTitle(title)
-                .setContentText(text)
-                .setAutoCancel(true)
-                .setLights(Color.WHITE,LED_ON_MS,LED_OFF_MS)
-                .setSmallIcon(iconResID)
-                .setContentIntent(pending);
-
-	        NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-	        notificationManager.notify(title.hashCode(), mBuilder.build());
+            buildNotification(c,title,text,iconResID,Color.WHITE,pending);
         });
     }
 
@@ -204,16 +198,7 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
-                    .setContentTitle(title)
-                    .setContentText(text)
-                    .setAutoCancel(true)
-                    .setLights(Color.WHITE,LED_ON_MS,LED_OFF_MS)
-                    .setSmallIcon(iconResID)
-                    .setContentIntent(pending);
-
-            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(title.hashCode(), mBuilder.build());
+            buildNotification(c,title,text,iconResID,Color.WHITE,pending);
         });
     }
 
@@ -225,16 +210,7 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
-                    .setContentTitle(title)
-                    .setContentText(text)
-                    .setAutoCancel(true)
-                    .setLights(argb_color,LED_ON_MS,LED_OFF_MS)
-                    .setSmallIcon(iconResID)
-                    .setContentIntent(pending);
-
-            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(title.hashCode(), mBuilder.build());
+            buildNotification(c,title,text,iconResID,argb_color,pending);
         });
     }
 
@@ -245,16 +221,7 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
-                    .setContentTitle(title)
-                    .setContentText(text)
-                    .setAutoCancel(true)
-                    .setLights(argb_color,LED_ON_MS,LED_OFF_MS)
-                    .setSmallIcon(iconResID)
-                    .setContentIntent(pending);
-
-            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(title.hashCode(), mBuilder.build());
+            buildNotification(c,title,text,iconResID,argb_color,pending);
         });
     }
 
@@ -266,16 +233,7 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
-                    .setContentTitle(title)
-                    .setContentText(text)
-                    .setAutoCancel(true)
-                    .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLights(Color.WHITE,LED_ON_MS,LED_OFF_MS)
-                    .setContentIntent(pending);
-
-            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(title.hashCode(), mBuilder.build());
+            buildNotification(c,title,text,android.R.drawable.ic_menu_info_details,Color.WHITE,pending);
         });
     }
 
@@ -286,16 +244,7 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
-                    .setContentTitle(title)
-                    .setContentText(text)
-                    .setAutoCancel(true)
-                    .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLights(Color.WHITE,LED_ON_MS,LED_OFF_MS)
-                    .setContentIntent(pending);
-
-            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(title.hashCode(), mBuilder.build());
+            buildNotification(c,title,text,android.R.drawable.ic_menu_info_details,Color.WHITE,pending);
         });
     }
 
@@ -307,16 +256,7 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
-                    .setContentTitle(title)
-                    .setContentText(text)
-                    .setAutoCancel(true)
-                    .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLights(argb_color,LED_ON_MS,LED_OFF_MS)
-                    .setContentIntent(pending);
-
-            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(title.hashCode(), mBuilder.build());
+            buildNotification(c,title,text,android.R.drawable.ic_menu_info_details,argb_color,pending);
         });
     }
 
@@ -327,17 +267,38 @@ public abstract class UIHelper
 
         runOnUiThread(()->
         {
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
-                    .setContentTitle(title)
-                    .setContentText(text)
-                    .setAutoCancel(true)
-                    .setSmallIcon(android.R.drawable.ic_dialog_info)
-                    .setLights(argb_color,LED_ON_MS,LED_OFF_MS)
-                    .setContentIntent(pending);
-
-            NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
-            notificationManager.notify(title.hashCode(), mBuilder.build());
+            buildNotification(c,title,text,android.R.drawable.ic_menu_info_details,argb_color,pending);
         });
+    }
+
+    public static void buildNotification(Context c, String title, String text, int iconResID, Uri sound, int argb_color, int led_on_ms, int led_off_ms, PendingIntent pending)
+    {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setSmallIcon(iconResID)
+                .setSound(sound)
+                .setLights(argb_color,led_on_ms,led_off_ms)
+                .setContentIntent(pending);
+
+        NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(title.hashCode(), mBuilder.build());
+    }
+
+    public static void buildNotification(Context c, String title, String text, int iconResID, int argb_color, PendingIntent pending)
+    {
+        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(c)
+                .setContentTitle(title)
+                .setContentText(text)
+                .setAutoCancel(true)
+                .setSmallIcon(iconResID)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
+                .setLights(argb_color,LED_ON_MS,LED_OFF_MS)
+                .setContentIntent(pending);
+
+        NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
+        notificationManager.notify(title.hashCode(), mBuilder.build());
     }
 
     public static void ask(Context c, String title, String message, String positiveLabel, String negativeLabel, View form, InputListener action)
