@@ -35,14 +35,12 @@ public abstract class UIHelper
 
     public static void show(View view)
     {
-        runOnUiThread(()->
-            view.setVisibility(RelativeLayout.VISIBLE),false);
+        runOnUiThread(()-> view.setVisibility(RelativeLayout.VISIBLE));
     }
 
     public static void hide(View view)
     {
-        runOnUiThread(()->
-            view.setVisibility(RelativeLayout.GONE),false);
+        runOnUiThread(()-> view.setVisibility(RelativeLayout.GONE));
     }
 
     public static boolean isVisible(View view)
@@ -52,8 +50,7 @@ public abstract class UIHelper
 
     public static void toast(Context c, String s)
     {
-        runOnUiThread(()->
-            Toast.makeText(c, s, Toast.LENGTH_SHORT).show(),false);
+        runOnUiThread(()-> Toast.makeText(c, s, Toast.LENGTH_SHORT).show());
     }
 
     public static final String[] colors =
@@ -90,7 +87,7 @@ public abstract class UIHelper
                     dialog.setTitle(message);
                     dialog.show();
                 }
-            },false);
+            });
         }
         else
         {
@@ -111,7 +108,7 @@ public abstract class UIHelper
                                 new WindowManager.LayoutParams(
                                         WindowManager.LayoutParams.MATCH_PARENT,
                                         WindowManager.LayoutParams.WRAP_CONTENT));
-                    },false);
+                    });
                 }
                 else
                 {
@@ -122,7 +119,7 @@ public abstract class UIHelper
                 {
                     dialog.setTitle(message);
                     dialog.show();
-                }, false);
+                });
             }
         }
     }
@@ -136,7 +133,7 @@ public abstract class UIHelper
                 runOnUiThread(()->
                 {
                         dialog.hide();
-                }, false);
+                });
             }
         }
     }
@@ -152,7 +149,7 @@ public abstract class UIHelper
         android.view.ViewGroup.LayoutParams params = view.getLayoutParams();
         params.width = metrics.widthPixels - padding;
         params.height = metrics.heightPixels - padding;
-        runOnUiThread(()-> view.setLayoutParams(params), false);
+        runOnUiThread(()-> view.setLayoutParams(params));
     }
 
     public static void toggleVisibility(View v)
@@ -174,82 +171,21 @@ public abstract class UIHelper
 
         String finalStrHour = strHour;
         String finalStrMinute = strMinute;
-        runOnUiThread(()-> text.setText(finalStrHour + ":" + finalStrMinute), false);
-    }
-
-    public static void notify(Activity a,Class destination, int iconResID, String title, String text)
-    {
-        Intent intent = new Intent(a, destination);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-        buildNotification(a,title,text,iconResID,Color.WHITE,pending);
-    }
-
-    public static void notify(Activity a, int iconResID, String title, String text)
-    {
-        Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
-        buildNotification(a,title,text,iconResID,Color.WHITE,pending);
-    }
-
-    public static void notify(Activity a,Class destination, int iconResID, String title, String text, int argb_color)
-    {
-        Intent intent = new Intent(a, destination);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-        buildNotification(a,title,text,iconResID,argb_color,pending);
-    }
-
-    public static void notify(Activity a, int iconResID, String title, String text, int argb_color)
-    {
-        Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        buildNotification(a,title,text,iconResID,argb_color,pending);
-    }
-
-    public static void notify(Activity a,Class destination, String title, String text)
-    {
-        Intent intent = new Intent(a, destination);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-        buildNotification(a,title,text,android.R.drawable.ic_dialog_info,Color.WHITE,pending);
-    }
-
-    public static void notify(Activity a, String title, String text)
-    {
-        Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        buildNotification(a,title,text,android.R.drawable.ic_dialog_info,Color.WHITE,pending);
-    }
-
-    public static void notify(Activity a,Class destination, String title, String text, int argb_color)
-    {
-        Intent intent = new Intent(a, destination);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
-        buildNotification(a,title,text,android.R.drawable.ic_dialog_info,argb_color,pending);
-    }
-
-    public static void notify(Activity a, String title, String text, int argb_color)
-    {
-        Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getActivity(a,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
-        buildNotification(a,title,text,android.R.drawable.ic_dialog_info,argb_color,pending);
+        runOnUiThread(()-> text.setText(finalStrHour + ":" + finalStrMinute));
     }
 
     public static void notify(Context c,Class destination, int iconResID, String title, String text)
     {
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         buildNotification(c,title,text,iconResID,Color.WHITE,pending);
     }
 
     public static void notify(Context c, int iconResID, String title, String text)
     {
         Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
         buildNotification(c,title,text,iconResID,Color.WHITE,pending);
     }
 
@@ -257,14 +193,14 @@ public abstract class UIHelper
     {
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         buildNotification(c,title,text,iconResID,argb_color,pending);
     }
 
     public static void notify(Context c, int iconResID, String title, String text, int argb_color)
     {
         Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
         buildNotification(c,title,text,iconResID,argb_color,pending);
     }
 
@@ -272,14 +208,14 @@ public abstract class UIHelper
     {
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         buildNotification(c,title,text,android.R.drawable.ic_dialog_info,Color.WHITE,pending);
     }
 
     public static void notify(Context c, String title, String text)
     {
         Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
         buildNotification(c,title,text,android.R.drawable.ic_dialog_info,Color.WHITE,pending);
     }
 
@@ -287,14 +223,14 @@ public abstract class UIHelper
     {
         Intent intent = new Intent(c, destination);
         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
-        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         buildNotification(c,title,text,android.R.drawable.ic_dialog_info,argb_color,pending);
     }
 
     public static void notify(Context c, String title, String text, int argb_color)
     {
         Intent intent = new Intent();
-        PendingIntent pending = PendingIntent.getBroadcast(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
         buildNotification(c,title,text,android.R.drawable.ic_dialog_info,argb_color,pending);
     }
 
@@ -313,7 +249,7 @@ public abstract class UIHelper
 
             NotificationManager notificationManager = (NotificationManager) c.getSystemService(Context.NOTIFICATION_SERVICE);
             notificationManager.notify(title.hashCode(), mBuilder.build());
-        },true);
+        });
     }
 
     public static void buildNotification(Context c, String title, String text, int iconResID, int argb_color, PendingIntent pending)
@@ -334,8 +270,8 @@ public abstract class UIHelper
                         action.run(form));
         alertDialog.setNegativeButton(negativeLabel,
                 (dialog, which) ->
-                        runOnUiThread(()-> dialog.cancel(),false));
-        runOnUiThread(()->alertDialog.show(),false);
+                        runOnUiThread(()-> dialog.cancel()));
+        runOnUiThread(()->alertDialog.show());
     }
 
     public static void askBinary(Context c,String title,String message,Runnable action)
@@ -392,16 +328,21 @@ public abstract class UIHelper
         void run(Object o);
     }
 
-    public static void runOnUiThread(Runnable action, boolean immediate)
+    public static void runOnUiThread(Runnable action)
     {
-        new Thread(()->
+        if(Looper.getMainLooper() == Looper.myLooper())
         {
-            Looper.prepare();
-            Handler handler = new Handler(Looper.getMainLooper());
-            if(immediate) handler.postAtFrontOfQueue(action);
-            else handler.post(action);
-            Looper.loop();
-        }).start();
+            action.run();
+        }
+        else
+        {
+            new Thread(()->
+            {
+                Looper.prepare();
+                Handler handler = new Handler(Looper.getMainLooper());
+                handler.post(action);
+                Looper.loop();
+            }).start();
+        }
     }
-
 }
