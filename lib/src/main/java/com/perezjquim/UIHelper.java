@@ -94,9 +94,17 @@ public abstract class UIHelper
             synchronized (dialog)
             {
                 Activity owner = dialog.getOwnerActivity();
-                if(owner != a)
+                if(owner != null && owner != a)
                 {
-                    if(owner != null && !owner.isFinishing()) dialog.dismiss();
+                    Handler handler = new Handler(owner.getMainLooper());
+                    if(!owner.isFinishing())
+                    {
+                        handler.post(() -> dialog.dismiss());
+                    }
+                    else
+                    {
+                        handler.post(() -> dialog.hide());
+                    }
 
                     runOnUiThread(() ->
                     {
