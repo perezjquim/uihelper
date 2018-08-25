@@ -115,18 +115,19 @@ public abstract class UIHelper
                                 new WindowManager.LayoutParams(
                                         WindowManager.LayoutParams.MATCH_PARENT,
                                         WindowManager.LayoutParams.WRAP_CONTENT));
+                        dialog.setTitle(message);
+                        dialog.show();
                     });
                 }
                 else
                 {
-                    dialog.hide();
+                    runOnUiThread(() ->
+                    {
+                        dialog.hide();
+                        dialog.setTitle(message);
+                        dialog.show();
+                    });
                 }
-
-                runOnUiThread(()->
-                {
-                    dialog.setTitle(message);
-                    dialog.show();
-                });
             }
         }
     }
