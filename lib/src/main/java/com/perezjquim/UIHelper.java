@@ -97,7 +97,6 @@ public abstract class UIHelper
                 if(owner != a)
                 {
                     if(owner != null && !owner.isFinishing()) dialog.dismiss();
-                    else dialog.hide();
 
                     runOnUiThread(() ->
                     {
