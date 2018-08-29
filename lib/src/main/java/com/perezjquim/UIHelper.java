@@ -101,8 +101,11 @@ public abstract class UIHelper
     {
         if(dialogs != null && dialogs.containsKey(a))
         {
-            Dialog dialog = dialogs.get(a);
-            dialog.hide();
+            runOnUiThread(()->
+            {
+                Dialog dialog = dialogs.get(a);
+                dialog.hide();
+            });
         }
     }
 
