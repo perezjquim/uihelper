@@ -27,22 +27,18 @@ import android.widget.Toast;
 
 import com.perezjquim.uihelper.R;
 
+import java.util.HashMap;
+
 public abstract class UIHelper
 {
-    private static Dialog dialog;
-    private static final int LED_ON_MS = 500;
-    private static final int LED_OFF_MS = 2000;
-
     public static void show(View view)
     {
         runOnUiThread(()-> view.setVisibility(RelativeLayout.VISIBLE));
     }
-
     public static void hide(View view)
     {
         runOnUiThread(()-> view.setVisibility(RelativeLayout.GONE));
     }
-
     public static boolean isVisible(View view)
     {
         return view.getVisibility() == RelativeLayout.VISIBLE;
@@ -68,81 +64,45 @@ public abstract class UIHelper
             "#FFFFFF"
     };
 
+    private static HashMap<Activity,Dialog> dialogs;
     public static void openProgressDialog(Activity a, String message)
     {
-        if(dialog == null)
+        if(dialogs == null) dialogs = new HashMap<>();
+
+        if(!dialogs.containsKey(a))
         {
             runOnUiThread(() ->
             {
-                dialog = new Dialog(a, R.style.TransparentProgressDialog);
-                synchronized (dialog)
-                {
-                    dialog.setCancelable(false);
-                    dialog.addContentView(
-                            new ProgressBar(a),
-                            new WindowManager.LayoutParams(
-                                    WindowManager.LayoutParams.MATCH_PARENT,
-                                    WindowManager.LayoutParams.WRAP_CONTENT));
+                Dialog dialog = new Dialog(a, R.style.TransparentProgressDialog);
+                dialog.setCancelable(false);
+                dialog.addContentView(
+                        new ProgressBar(a),
+                        new WindowManager.LayoutParams(
+                                WindowManager.LayoutParams.MATCH_PARENT,
+                                WindowManager.LayoutParams.WRAP_CONTENT));
+                dialog.setTitle(message);
+                dialog.show();
 
-                    dialog.setTitle(message);
-                    dialog.show();
-                }
+                dialogs.put(a,dialog);
             });
         }
         else
         {
-            synchronized (dialog)
+            Dialog dialog = dialogs.get(a);
+            runOnUiThread(() ->
             {
-                Activity owner = dialog.getOwnerActivity();
-                if(owner != null && owner != a)
-                {
-                    Handler handler = new Handler(owner.getMainLooper());
-                    if(!owner.isFinishing())
-                    {
-                        handler.post(() -> dialog.dismiss());
-                    }
-                    else
-                    {
-                        handler.post(() -> dialog.hide());
-                    }
-
-                    runOnUiThread(() ->
-                    {
-                        dialog = new Dialog(a, R.style.TransparentProgressDialog);
-                        dialog.setCancelable(false);
-                        dialog.addContentView(
-                                new ProgressBar(a),
-                                new WindowManager.LayoutParams(
-                                        WindowManager.LayoutParams.MATCH_PARENT,
-                                        WindowManager.LayoutParams.WRAP_CONTENT));
-                        dialog.setTitle(message);
-                        dialog.show();
-                    });
-                }
-                else
-                {
-                    runOnUiThread(() ->
-                    {
-                        dialog.hide();
-                        dialog.setTitle(message);
-                        dialog.show();
-                    });
-                }
-            }
+                dialog.hide();
+                dialog.setTitle(message);
+                dialog.show();
+            });
         }
     }
-
-    public static void closeProgressDialog()
+    public static void closeProgressDialog(Activity a)
     {
-        if(dialog != null)
+        if(dialogs != null && dialogs.containsKey(a))
         {
-            synchronized (dialog)
-            {
-                runOnUiThread(()->
-                {
-                        dialog.hide();
-                });
-            }
+            Dialog dialog = dialogs.get(a);
+            dialog.hide();
         }
     }
 
@@ -182,6 +142,8 @@ public abstract class UIHelper
         runOnUiThread(()-> text.setText(finalStrHour + ":" + finalStrMinute));
     }
 
+    private static final int LED_ON_MS = 500;
+    private static final int LED_OFF_MS = 2000;
     public static void notify(Context c,Class destination, int iconResID, String title, String text)
     {
         Intent intent = new Intent(c, destination);
@@ -189,14 +151,12 @@ public abstract class UIHelper
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         buildNotification(c,title,text,iconResID,Color.WHITE,pending);
     }
-
     public static void notify(Context c, int iconResID, String title, String text)
     {
         Intent intent = new Intent();
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
         buildNotification(c,title,text,iconResID,Color.WHITE,pending);
     }
-
     public static void notify(Context c,Class destination, int iconResID, String title, String text, int argb_color)
     {
         Intent intent = new Intent(c, destination);
@@ -204,14 +164,12 @@ public abstract class UIHelper
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         buildNotification(c,title,text,iconResID,argb_color,pending);
     }
-
     public static void notify(Context c, int iconResID, String title, String text, int argb_color)
     {
         Intent intent = new Intent();
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
         buildNotification(c,title,text,iconResID,argb_color,pending);
     }
-
     public static void notify(Context c,Class destination, String title, String text)
     {
         Intent intent = new Intent(c, destination);
@@ -219,14 +177,12 @@ public abstract class UIHelper
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         buildNotification(c,title,text,android.R.drawable.ic_dialog_info,Color.WHITE,pending);
     }
-
     public static void notify(Context c, String title, String text)
     {
         Intent intent = new Intent();
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
         buildNotification(c,title,text,android.R.drawable.ic_dialog_info,Color.WHITE,pending);
     }
-
     public static void notify(Context c,Class destination, String title, String text, int argb_color)
     {
         Intent intent = new Intent(c, destination);
@@ -234,14 +190,12 @@ public abstract class UIHelper
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT | PendingIntent.FLAG_ONE_SHOT);
         buildNotification(c,title,text,android.R.drawable.ic_dialog_info,argb_color,pending);
     }
-
     public static void notify(Context c, String title, String text, int argb_color)
     {
         Intent intent = new Intent();
         PendingIntent pending = PendingIntent.getActivity(c,0,intent, PendingIntent.FLAG_UPDATE_CURRENT);
         buildNotification(c,title,text,android.R.drawable.ic_dialog_info,argb_color,pending);
     }
-
     public static void buildNotification(Context c, String title, String text, int iconResID, Uri sound, int argb_color, int led_on_ms, int led_off_ms, PendingIntent pending)
     {
         runOnUiThread(()->
@@ -259,7 +213,6 @@ public abstract class UIHelper
             notificationManager.notify(title.hashCode(), mBuilder.build());
         });
     }
-
     public static void buildNotification(Context c, String title, String text, int iconResID, int argb_color, PendingIntent pending)
     {
         buildNotification(c,title,text,iconResID,RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION),argb_color,LED_ON_MS,LED_OFF_MS,pending);
