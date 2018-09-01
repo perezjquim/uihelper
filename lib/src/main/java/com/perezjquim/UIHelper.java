@@ -64,12 +64,14 @@ public abstract class UIHelper
             "#FFFFFF"
     };
 
-    private static HashMap<Activity,Dialog> dialogs;
+    private static HashMap<String,Dialog> dialogs;
     public static void openProgressDialog(Activity a, String message)
     {
         if(dialogs == null) dialogs = new HashMap<>();
 
-        if(!dialogs.containsKey(a))
+        String name = a.getLocalClassName();
+
+        if(!dialogs.containsKey(name))
         {
             runOnUiThread(() ->
             {
@@ -83,12 +85,12 @@ public abstract class UIHelper
                 dialog.setTitle(message);
                 dialog.show();
 
-                dialogs.put(a,dialog);
+                dialogs.put(name,dialog);
             });
         }
         else
         {
-            Dialog dialog = dialogs.get(a);
+            Dialog dialog = dialogs.get(name);
             runOnUiThread(() ->
             {
                 dialog.hide();
@@ -99,11 +101,13 @@ public abstract class UIHelper
     }
     public static void closeProgressDialog(Activity a)
     {
-        if(dialogs != null && dialogs.containsKey(a))
+        String name = a.getLocalClassName();
+
+        if(dialogs != null && dialogs.containsKey(name))
         {
             runOnUiThread(()->
             {
-                Dialog dialog = dialogs.get(a);
+                Dialog dialog = dialogs.get(name);
                 dialog.hide();
             });
         }
